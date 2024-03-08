@@ -10,7 +10,13 @@ import crypto from "crypto"
 
 
 dotenv.config();
-
+//payment gateway
+var gateway = new braintree.BraintreeGateway({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVIATE_KEY,
+});
 export const createProductController = async (req, res) => {
     try {           //we can not access photo directly for that we need to 'npm i express-formidable'
         const { name, slug, description, price, category, quantity, shipping } = req.fields
