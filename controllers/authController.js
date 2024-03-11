@@ -94,7 +94,7 @@ export const loginController = async (req, res) => {
       });
     }
     //token
-    const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    const token =  JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     res.status(200).send({
@@ -205,7 +205,8 @@ export const getorderController = async (req, res) => {
   try {
     const orders = await orderModel.find({ buyer: req.user._id })
       .populate("products", "-photo")
-      .populate("buyer", "name");
+      .populate("buyer", "name")
+      .sort({createdAt:-1})
     res.json(orders);
   } catch (error) {
     // console.log(error)
@@ -224,7 +225,7 @@ export const getAllorderController = async (req, res) => {
       .populate('products', '-photo')
       .populate('buyer',)
       
-    // .sort({createdAt:'-1'})
+     .sort({createdAt:-1})
     res.json(allOrder)
   } catch (error) {
     // console.log(error)
